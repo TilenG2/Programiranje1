@@ -1,5 +1,4 @@
 import unittest
-import numpy as np
 
 ovire1 = [(1, 3, 6), (2, 4, 3), (4, 6, 7),
           (3, 4, 9), (6, 9, 5), (9, 10, 2), (9, 10, 8)]
