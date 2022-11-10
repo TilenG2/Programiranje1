@@ -25,6 +25,8 @@ for vrstica in zemljevid:
         x += 1
     y += 1
 
+print(ovire)
+
 maxx, maxy = 0, 0
 _, x, y = zip(*ovire)
 maxx = max(x)
