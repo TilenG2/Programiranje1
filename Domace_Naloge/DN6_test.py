@@ -40,10 +40,7 @@ def zapisi(ovire):
     _, _, maxy = zip(*ovire)
     maxy = max(maxy)
     seznam = np.empty(shape=maxy , dtype=list)
-    i = 0
-    while i < maxy:
-        seznam[i]=[]
-        i += 1
+    for i in np.ndindex(seznam.shape): seznam[i] = []
     for coords in ovire:
         x0, x1, y = coords
         seznam[y-1].append((x0, x1))
