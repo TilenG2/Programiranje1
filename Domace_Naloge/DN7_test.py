@@ -53,8 +53,7 @@ vescine = {
 }
 def mnozica_vescin(s):
     vrnitev = []
-    s = s.split()
-    for vescina in s:
+    for vescina in s.split():
         vrnitev.append(vescine[vescina])
     return set(vrnitev)
 
@@ -68,34 +67,29 @@ def dvosmerni_zemljevid(zemljevi):
     return dict(zip(coords, vescina))
 
 def mozna_pot(pot, zemljevid):
-    moznapot = True
-    pot = list(zip(pot[:-1], pot[1:]))
-    for (a, b) in pot:
-        if not((a, b) in zemljevid or (b, a) in zemljevid):
-            moznapot = False
-    return moznapot
+    zemljevid = dvosmerni_zemljevid(zemljevid)
+    for ab in zip(pot[:-1], pot[1:]):
+        if not ab in zemljevid:
+            return False
+    return True
 
 def potrebne_vescine(pot, zemljevid):
-    pot = list(zip(pot[:-1], pot[1:]))
     potr_vescine = set()
     zemljevid = dvosmerni_zemljevid(zemljevid)
-    for xy in pot:
+    for xy in zip(pot[:-1], pot[1:]):
         potr_vescine = potr_vescine | zemljevid[xy]
     return potr_vescine
 
 def nepotrebne_vescine(pot, zemljevid, vescine):
-    pot = list(zip(pot[:-1], pot[1:]))
     zemljevid = dvosmerni_zemljevid(zemljevid)
-    for xy in pot:
+    for xy in zip(pot[:-1], pot[1:]):
         vescine = vescine - zemljevid[xy]
     return vescine
 
 def koncna_tocka(pot, zemljevid, vescine):
     kontocka = pot[-1:]
-    potr_vescine = set()
-    pot = list(zip(pot[:-1], pot[1:]))
     zemljevid = dvosmerni_zemljevid(zemljevid)
-    for xy in pot:
+    for xy in zip(pot[:-1], pot[1:]):
         if vescine | zemljevid[xy] != vescine:
             potr_vescine = zemljevid[xy] - vescine
             kontocka, _ = xy
