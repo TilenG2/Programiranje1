@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, R, S, T, U, V = "ABCDEFGHIJKLMNOPRSTUV"
 
 zemljevid = {
@@ -58,13 +60,11 @@ def mnozica_vescin(s):
     return set(vrnitev)
 
 def dvosmerni_zemljevid(zemljevi):
-    coords, vescina = [], []
+    seznam = defaultdict(set)
     for (x, y), s in zemljevi.items():
-        coords.append((x, y))
-        vescina.append(mnozica_vescin(s))
-        coords.append((y, x))
-        vescina.append(mnozica_vescin(s))
-    return dict(zip(coords, vescina))
+        seznam[(x, y)] = mnozica_vescin(s)
+        seznam[(y, x)] = mnozica_vescin(s)
+    return seznam
 
 def mozna_pot(pot, zemljevid):
     zemljevid = dvosmerni_zemljevid(zemljevid)
