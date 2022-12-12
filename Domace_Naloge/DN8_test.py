@@ -1,7 +1,3 @@
-from functools import reduce
-from operator import add
-
-
 def stevilo_ovir(ovire): 
     return len(ovire)
 
@@ -48,7 +44,7 @@ def senca(ovire):
     return [globina(ovire, x) == None for x in range(1, sirina(ovire) + 1)]
 
 def indeksi(s, subs):
-    return sorted(list({s.find(subs, i) for i in range(0, len(s)) if s.find(subs, i) != -1 }))
+    return sorted(list({s.find(subs, i) for i in range(len(s)) if s.find(subs, i) != -1 }))
         
 
 import unittest
@@ -197,7 +193,7 @@ class Test03Ekstra(unittest.TestCase, TestOneLineMixin):
         self.assertEqual((7, None), naj_stolpec(ovire2))
         self.assertEqual((5, None), naj_stolpec(ovire3))
 
-        # self.assert_is_one_line(naj_stolpec)
+        self.assert_is_one_line(naj_stolpec)
 
 
 if __name__ == "__main__":
