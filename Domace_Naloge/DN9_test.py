@@ -128,11 +128,8 @@ def naslednje_tocke(tocke, zemljevid, vescine):
 def dosegljive(tocka, zemljevid, vescine):
     tocke = naslednje_tocke(tocka, zemljevid, vescine)
     while True:
-        if naslednje_tocke(tocke, zemljevid, vescine) | tocke == tocke:
-            break
-        else:
-            tocke = naslednje_tocke(tocke, zemljevid, vescine) | tocke
-    return tocke
+        if naslednje_tocke(tocke, zemljevid, vescine) | tocke == tocke: return tocke
+        else: tocke = naslednje_tocke(tocke, zemljevid, vescine) | tocke
 
 def dosegljive_n(tocka, zemljevid, meja):
     def doseg(tockameja, zemljevid, banned):
@@ -147,6 +144,9 @@ def dosegljive_n(tocka, zemljevid, meja):
         return dosegljivetocke 
 
     return doseg((tocka, meja), zemljevid, set())
+
+def naj_vescine(tocka, zemljevid, zelje):
+    return None
 
 import string
 import unittest
