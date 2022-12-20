@@ -1,10 +1,39 @@
-
-
 import os
 import warnings
 from random import randint
 from datetime import datetime
 import unittest
+from collections import defaultdict
+
+def zapisi_ovire(ime_datoteke, ovire):
+    f = open(ime_datoteke, "w")
+    for row, ovire_list in ovire.items():
+        row = f"{row:03}:"
+        for (a, b) in ovire_list:
+            row += f"{a:>4}-{b:<4}"
+        f.write(row+"\n")
+
+def preberi_ovire(ime_datoteke):
+    key = x = None
+    ovire_dict, ovire_list = [], []
+    for vrstica in open(ime_datoteke):
+        vrstica = vrstica.strip()
+        if vrstica == "":
+            ovire_dict.append((key, ovire_list))
+            key = None
+            ovire_list = []
+            continue
+        vrstica = int(vrstica)
+        if key is None:
+            key = vrstica
+            continue
+        if x is None:
+            x = vrstica
+            continue
+        ovire_list.append((x, vrstica))
+        x = None
+    ovire_dict.append((key, ovire_list))
+    return dict(ovire_dict)
 
 
 class TestZapis(unittest.TestCase):
