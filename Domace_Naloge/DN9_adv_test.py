@@ -1,4 +1,5 @@
-from collections import defaultdict
+
+
 
 
 A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, R, S, T, U, V = "ABCDEFGHIJKLMNOPRSTUV"
@@ -148,10 +149,11 @@ def dosegljive_n(tocka, zemljevid, meja):
 def naj_vescine(tocka, zemljevid, zelje):
     return None
 
+
 import string
 import unittest
 import ast
-
+from copy import deepcopy
 
 class Ocena_06(unittest.TestCase):
     def test01_vrednost_povezave(self):
@@ -255,9 +257,11 @@ class Ocena_08(unittest.TestCase):
 
 class Ocena_09(unittest.TestCase):
     def test_00_enovrsticne(self):
+        global fname
+        if fname != "solution.py": fname = f"submissions/{fname}"
         functions = {
             elm.name: elm
-            for elm in ast.parse(open(__file__, "r", encoding="utf-8").read()).body
+            for elm in ast.parse(open(fname, "r", encoding="utf-8").read()).body
             if isinstance(elm, ast.FunctionDef)}
 
         dovoljene_funkcije = set("vrednost_povezave najboljsa_povezava vrednost_poti najbolj_uporabna "
@@ -309,6 +313,25 @@ class Ocena_11(unittest.TestCase):
         self.assertEqual({S, P}, dosegljive_n(P, zemljevid, 1))
         self.assertEqual({H, J, L, K, M, N, I, G, R, D, F, V, A, B, C, U, E, S, T, P, O}, dosegljive_n(A, zemljevid, 1000))
 
+        zemljevid5 = {}
+        letters = "ABCDEFGHIJKLMNOPRSTUV"
+        for i, x in enumerate(letters):
+            for j, y in enumerate(letters):
+                d = abs(i - j)
+                if d == 1: zemljevid5[(x, y)] = {"robnik"}
+                if d == 2: zemljevid5[(x, y)] = {"trava"}
+        self.assertEqual(set(letters), dosegljive_n('A', zemljevid5, len(letters) - 1))
+
+        zemljevid6 = {}
+        letters = string.ascii_letters
+        for i, x in enumerate(letters):
+            for j, y in enumerate(letters):
+                d = abs(i - j)
+                if d == 1: zemljevid6[(x, y)] = {"robnik"}
+                if d == 2: zemljevid6[(x, y)] = {"trava"}
+        self.assertEqual(set(letters), dosegljive_n('A', zemljevid6, len(letters) - 1))
+        self.assertEqual(set(letters), dosegljive_n('A', zemljevid6, 1000))
+
 
 class Ocena_12(unittest.TestCase):
     def test_01_naj_vescine(self):
@@ -324,9 +347,23 @@ class Ocena_12(unittest.TestCase):
         self.assertEqual(({'gravel', "bolt"}, 3), naj_vescine("L", zemljevid, 2))
         self.assertEqual(({'stopnice', 'bolt', 'gravel', 'avtocesta'}, 10), naj_vescine("L", zemljevid, 4))
 
-        zemljevid2 = zemljevid.copy()
+        zemljevid2 = deepcopy(zemljevid)
         zemljevid2["A", "Z"] = zemljevid2["Z", "A"] = set(string.ascii_letters)
         self.assertEqual(({'trava', 'gravel', 'lonci', 'robnik'}, 11), naj_vescine("A", zemljevid2, 4))
+
+        self.assertEqual(({'avtocesta', 'bolt', 'gravel', 'lonci', 'pešci', 'robnik', 'trava'}, 20),
+                         naj_vescine("A", zemljevid2, 7))
+
+        zemljevid3 = deepcopy(zemljevid)
+        for key in zemljevid3:
+            zemljevid3[key].add("abc")
+        self.assertEqual(({'abc', 'avtocesta', 'bolt', 'gravel', 'lonci', 'pešci', 'robnik', 'trava'}, 20),
+                         naj_vescine("A", zemljevid3, 8))
+
+        zemljevid4 = {(x,y): {"bolt"} for x in string.ascii_uppercase for y in string.ascii_uppercase if x!=y}
+        self.assertEqual(({"bolt"}, len(string.ascii_uppercase)),
+                         naj_vescine("A", zemljevid4, 10))
+
 
 
 if "__main__" == __name__:
