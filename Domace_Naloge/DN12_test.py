@@ -60,7 +60,7 @@ class AvtonomniKolesar(Kolesar):
 class VzvratniKolesar(Kolesar):
     def __init__(self, x, y, steza):
         super().__init__(x, y, steza)
-        self.memory = []
+        self.memory = [((self.x, self.y), self.prevozenaPot)]
         
     def premik(self, smer):
         self.memory.append(((self.x, self.y), self.prevozenaPot))
