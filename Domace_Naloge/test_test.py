@@ -47,9 +47,8 @@ def vecji_frajer(pot1, pot2, zemljevid):
 def koristne_vescine(tocka, zemljevid):
     vescine = set()
     for x1, x2 in zemljevid:
-        if x1 in tocka and (x1 < x2):
-            vescine = vescine | zemljevid[(x1, x2)] 
-            vescine = vescine | koristne_vescine(x2, zemljevid) 
+        if x1 == tocka and x1 < x2:
+            vescine |= zemljevid[(x1, x2)] | koristne_vescine(x2, zemljevid)
     return vescine
 
 def preberi_zemljevid_vescin(ime_datoteke):
@@ -58,10 +57,11 @@ def preberi_zemljevid_vescin(ime_datoteke):
         vrstica = vrstica.replace("\n", "")
         vescina, krizisca = vrstica.split(":")
         vescina = {vescina}
+        krizisca = krizisca.strip().replace("\n", "")
         for krizisce in krizisca.split(", "):
-            krizisce = krizisce.replace(" ", "")
-            a, b = krizisce.split("-")  
-            neki[a, b] =  neki[a, b] | vescina
+            if krizisce != "":
+                a, b = krizisce.split("-")  
+                neki[a, b] =  neki[a, b] | vescina
     return neki
 
 
